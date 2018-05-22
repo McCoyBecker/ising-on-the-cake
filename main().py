@@ -73,22 +73,17 @@ plt.ylabel('Distance from Voronoi boundary')
 plt.show()
 
 BootstrapParameter = 1000
-SamplefromPoints = []
 rootList = []
 for n in range(100):
+    SamplefromPoints = []
     for T in set(mySimulation.TemperatureList):
         Points = [j[1] for j in TempDensityList if j[0] == T]
         Points = [random.choice(Points) for j in range(BootstrapParameter)]
         SamplefromPoints.append((T, np.mean(Points)))
 
-    MeanSample = []
-    for T in set(mySimulation.TemperatureList):
-        Points = [j[1] for j in SamplefromPoints if j[0] == T]
-        MeanSample.append((T, np.mean(Points)))
-
-    MeanSample = sorted(MeanSample, key=lambda x: x[0])
-    T,Points = zip(*MeanSample)
-    cs = UnivariateSpline(T, Points, bbox=[1.6,2.9],k=4)
+    SamplefromPoints = sorted(SamplefromPoints, key=lambda x: x[0])
+    T,Points = zip(*SamplefromPoints)
+    cs = UnivariateSpline(T, Points, bbox=[1.6,2.9],k=4,s=2)
     rootList.append(cs.derivative().roots()[1])
 
 plt.figure(figsize=(6.5, 4))
