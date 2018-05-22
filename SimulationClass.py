@@ -23,6 +23,7 @@ class Simulation:
         for i in range(len(self.SimulationList)):
             for j in range(4):
                 self.SimulationList[i][j].MonteCarloStep()
+        print("Update finished")
     
     def sample(self):
             for i in range(len(self.SimulationList)):
