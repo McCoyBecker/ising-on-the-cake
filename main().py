@@ -15,7 +15,7 @@ import DataAnalyzerClass as data
 
 mySimulation = simulation.Simulation(20,1,1.6,2.9,60)
 
-for i in range(0):
+for i in range(100):
     mySimulation.update()
 
 for i in range(50):
@@ -90,7 +90,7 @@ print(MeanSample)
 T,Points = zip(*MeanSample)
 rootList = []
 for i in range(100):
-    cs = UnivariateSpline(T, Points, bbox=[1.6,2.9],k=4,s=3)
+    cs = UnivariateSpline(T, Points, bbox=[1.6,2.9],k=4,s=20)
     rootList.append(cs.derivative().roots()[1])
 
 plt.figure(figsize=(6.5, 4))
