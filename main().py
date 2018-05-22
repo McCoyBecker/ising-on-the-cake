@@ -13,9 +13,9 @@ import SimulationClass as simulation
 import DataAnalyzerClass as data
 
 
-mySimulation = simulation.Simulation(20,1,1.6,2.9,60)
+mySimulation = simulation.Simulation(20,1,1.6,2.9,20)
 
-for i in range(100):
+for i in range(200):
     mySimulation.update()
 
 for i in range(50):
@@ -73,35 +73,32 @@ plt.show()
 
 BootstrapParameter = 1000
 SamplefromPoints = []
+rootList = []
 for n in range(100):
     for T in set(mySimulation.TemperatureList):
         Points = [j[1] for j in TempDensityList if j[0] == T]
         Points = [random.choice(Points) for j in range(BootstrapParameter)]
         SamplefromPoints.append((T, np.mean(Points)))
 
-MeanSample = []
-for T in set(mySimulation.TemperatureList):
-    Points = [j[1] for j in SamplefromPoints if j[0] == T]
-    MeanSample.append((T, np.mean(Points)))
+    MeanSample = []
+    for T in set(mySimulation.TemperatureList):
+        Points = [j[1] for j in SamplefromPoints if j[0] == T]
+        MeanSample.append((T, np.mean(Points)))
 
-MeanSample = sorted(MeanSample, key=lambda x: x[0])
-print(MeanSample)
-
-T,Points = zip(*MeanSample)
-rootList = []
-for i in range(100):
-    cs = UnivariateSpline(T, Points, bbox=[1.6,2.9],k=4,s=20)
+    MeanSample = sorted(MeanSample, key=lambda x: x[0])
+    T,Points = zip(*MeanSample)
+    cs = UnivariateSpline(T, Points, bbox=[1.6,2.9],k=4)
     rootList.append(cs.derivative().roots()[1])
 
 plt.figure(figsize=(6.5, 4))
-plt.plot(T, Points, 'x', label="data")
+plt.plot(T, Points, 'o', label="data")
 plt.plot(T, cs(T), label="S")
 plt.title('Sample temperature versus distance from boundary')
 plt.xlabel('Temperature')
 plt.ylabel('Distance from Voronoi boundary')
 plt.show()
 
-print(sum(rootList)/float(len(rootList)))
+print(str(np.mean(rootList)) + " +/- " + str(np.std(rootList)))
 
 
 
