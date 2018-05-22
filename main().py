@@ -15,13 +15,15 @@ import DataAnalyzerClass as data
 
 mySimulation = simulation.Simulation(20,1,1.6,2.9,20)
 
-for i in range(300):
+for i in range(500):
     mySimulation.update()
     print("Update("+str(i)+")")
 
-for i in range(50):
-    mySimulation.update()
+for i in range(100):
+    for j in range(10):
+        mySimulation.update()
     mySimulation.sample()
+    print("Sample("+str(i)+")")
 
 print(len(mySimulation.dataMatrix))
 dataAnalyzer = data.DataAnalyzer(mySimulation.dataMatrix,2,3)
@@ -31,7 +33,7 @@ X1,X2 = zip(*dataAnalyzer.PCA.fit_transform(dataAnalyzer.scaler.transform(dataAn
 
 colmap={1:'r', 2:'g', 3:'b'}
 df=pd.DataFrame({'x': X1, 'y': X2})
-kmeans=KMeans(n_clusters=2)
+kmeans=KMeans(n_clusters=3)
 kmeans.fit(df)
 labels=kmeans.predict(df)
 transformed=kmeans.transform(df)

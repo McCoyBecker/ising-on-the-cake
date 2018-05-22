@@ -17,7 +17,7 @@ class Simulation:
         self.UpperTemp = TemperatureUpperBound
         self.TempRange = TemperatureRange
         self.TemperatureList = []
-        self.SimulationList = [[Ising.IsingLattice(k, LatticeSize, Coupling, TemperatureLowerBound + j*((TemperatureUpperBound-TemperatureLowerBound))/float(TemperatureRange)) for k in [-1,-1,-1,-1]] for j in range(TemperatureRange)]
+        self.SimulationList = [[Ising.IsingLattice(k, LatticeSize, Coupling, TemperatureLowerBound + j*((TemperatureUpperBound-TemperatureLowerBound))/float(TemperatureRange)) for k in [1,-1,0,0.5]] for j in range(TemperatureRange)]
 
     def update(self):
         for i in range(len(self.SimulationList)):
