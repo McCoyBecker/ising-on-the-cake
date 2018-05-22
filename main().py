@@ -3,7 +3,7 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 from scipy.spatial import Voronoi, voronoi_plot_2d
-from scipy.interpolate import CubicSpline
+from scipy.interpolate import UnivariateSpline
 import numpy as np
 import random as random
 import matplotlib.pyplot as plt
@@ -15,7 +15,7 @@ import DataAnalyzerClass as data
 
 mySimulation = simulation.Simulation(20,1,1.6,2.9,60)
 
-for i in range(50):
+for i in range(0):
     mySimulation.update()
 
 for i in range(50):
@@ -84,16 +84,24 @@ for T in set(mySimulation.TemperatureList):
     Points = [j[1] for j in SamplefromPoints if j[0] == T]
     MeanSample.append((T, np.mean(Points)))
 
+MeanSample = sorted(MeanSample, key=lambda x: x[0])
+print(MeanSample)
+
 T,Points = zip(*MeanSample)
-cs = CubicSpline(T,Points)
-xs = np.arange(1.6, 2.9, 0.1)
+rootList = []
+for i in range(100):
+    cs = UnivariateSpline(T, Points, bbox=[1.6,2.9],k=4,s=3)
+    rootList.append(cs.derivative().roots()[1])
+
 plt.figure(figsize=(6.5, 4))
-plt.plot(T, Points, 'o', label='data')
-plt.plot(xs, cs(xs), label="S")
+plt.plot(T, Points, 'x', label="data")
+plt.plot(T, cs(T), label="S")
 plt.title('Sample temperature versus distance from boundary')
 plt.xlabel('Temperature')
 plt.ylabel('Distance from Voronoi boundary')
 plt.show()
+
+print(sum(rootList)/float(len(rootList)))
 
 
 
