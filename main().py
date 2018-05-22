@@ -17,6 +17,7 @@ mySimulation = simulation.Simulation(20,1,1.6,2.9,20)
 
 for i in range(300):
     mySimulation.update()
+    print("Update("+str(i)+")")
 
 for i in range(50):
     mySimulation.update()
