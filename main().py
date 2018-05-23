@@ -15,7 +15,7 @@ import DataAnalyzerClass as data
 
 mySimulation = simulation.Simulation(20,1,1.6,2.9,20)
 
-for i in range(100):
+for i in range(50):
     mySimulation.update()
     print("Update("+str(i)+")")
 
@@ -85,12 +85,12 @@ for n in range(100):
 
     SamplefromPoints = sorted(SamplefromPoints, key=lambda x: x[0])
     T,Points = zip(*SamplefromPoints)
-    z = np.polyfit(T,Points,4)
+    z = np.polyfit(T,Points,3)
     p = np.poly1d(z)
     rootList.append(np.polyder(p).roots[0])
 
 
-xs = np.arange(1.6,2.9,0.001)
+xs = np.arange(1.5,3,0.001)
 plt.figure(figsize=(6.5, 4))
 plt.plot(T, Points, 'o', label="data")
 plt.plot(xs, p(xs), label="Poly(deg = 3) regression")
