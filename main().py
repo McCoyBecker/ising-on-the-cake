@@ -20,7 +20,7 @@ for i in range(100):
     print("Update("+str(i)+")")
 
 for i in range(100):
-    for j in range(5):
+    for j in range(1):
         mySimulation.update()
     mySimulation.sample()
     print("Sample("+str(i)+")")
@@ -85,9 +85,9 @@ for n in range(100):
 
     SamplefromPoints = sorted(SamplefromPoints, key=lambda x: x[0])
     T,Points = zip(*SamplefromPoints)
-    z = np.polyfit(T,Points,3)
+    z = np.polyfit(T,Points,4)
     p = np.poly1d(z)
-    rootList.append(np.polyder(p,m=1).roots[2])
+    rootList.append(np.polyder(p).roots[0])
 
 
 xs = np.arange(1.6,2.9,0.001)
