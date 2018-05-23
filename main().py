@@ -3,7 +3,7 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 from scipy.spatial import Voronoi, voronoi_plot_2d
-from scipy.interpolate import UnivariateSpline
+from scipy.interpolate import InterpolatedUnivariateSpline
 import numpy as np
 import random as random
 import matplotlib.pyplot as plt
@@ -15,12 +15,12 @@ import DataAnalyzerClass as data
 
 mySimulation = simulation.Simulation(20,1,1.6,2.9,20)
 
-for i in range(500):
+for i in range(100):
     mySimulation.update()
     print("Update("+str(i)+")")
 
 for i in range(100):
-    for j in range(10):
+    for j in range(5):
         mySimulation.update()
     mySimulation.sample()
     print("Sample("+str(i)+")")
@@ -64,7 +64,7 @@ for m in range(3):
     for (i,j,T) in df.loc[df['Labels'] == m][['x','y','Temp']].values:
         list = []
         for (k,l) in df.loc[df['Labels'] != m][['x','y']].values:
-            list.append(np.sqrt((i-k)**2+(j-l)**2))
+            list.append((np.sqrt((i-k)**2+(j-l)**2))/float(2))
         TempDensityList.append((T, min(list)))
 TempDensityList.sort()
 
@@ -85,12 +85,15 @@ for n in range(100):
 
     SamplefromPoints = sorted(SamplefromPoints, key=lambda x: x[0])
     T,Points = zip(*SamplefromPoints)
-    cs = UnivariateSpline(T, Points, bbox=[1.6,2.9],k=4,s=2)
-    rootList.append(cs.derivative().roots()[1])
+    z = np.polyfit(T,Points,3)
+    p = np.poly1d(z)
+    rootList.append(np.polyder(p,m=1).roots[2])
 
+
+xs = np.arange(1.6,2.9,0.001)
 plt.figure(figsize=(6.5, 4))
 plt.plot(T, Points, 'o', label="data")
-plt.plot(T, cs(T), label="S")
+plt.plot(xs, p(xs), label="Poly(deg = 3) regression")
 plt.title('Sample temperature versus distance from boundary')
 plt.xlabel('Temperature')
 plt.ylabel('Distance from Voronoi boundary')
