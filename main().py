@@ -11,6 +11,7 @@ import configClass as cf
 import IsingLatticeClass as Ising
 import SimulationClass as simulation
 import DataAnalyzerClass as data
+import statsmodels as sm
 
 
 mySimulation = simulation.Simulation(20,1,1.6,2.9,20)
@@ -85,9 +86,9 @@ for n in range(100):
 
     SamplefromPoints = sorted(SamplefromPoints, key=lambda x: x[0])
     T,Points = zip(*SamplefromPoints)
-    z = np.polyfit(T,Points,3)
+    z = np.polyfit(T,Points,5)
     p = np.poly1d(z)
-    rootList.append(np.polyder(p).roots[0])
+    rootList.append(np.polyder(p).roots[2])
 
 
 xs = np.arange(1.5,3,0.001)
