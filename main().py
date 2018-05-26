@@ -81,6 +81,10 @@ plt.xlabel('Temperature')
 plt.ylabel('Distance from Voronoi boundary')
 plt.show()
 
+#----------------
+#LOESS smoothing estimates
+#----------------
+
 BootstrapParameter = 1000
 rootList = []
 for n in range(100):
