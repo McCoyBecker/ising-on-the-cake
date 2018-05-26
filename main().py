@@ -17,9 +17,9 @@ from statsmodels.nonparametric.smoothers_lowess import lowess
 # Setup the simulation and run updates
 #-------------------------------------
 
-mySimulation = simulation.Simulation(20,1,1.6,2.9,100)
+mySimulation = simulation.Simulation(40,1,1.6,2.9,20)
 
-for i in range(50):
+for i in range(150):
     mySimulation.update()
     print("Update("+str(i)+")")
 
