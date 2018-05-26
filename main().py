@@ -13,6 +13,9 @@ import SimulationClass as simulation
 import DataAnalyzerClass as data
 import statsmodels as sm
 
+#----------------
+#Setup the simulation and run updates
+#----------------
 
 mySimulation = simulation.Simulation(20,1,1.6,2.9,20)
 
@@ -25,12 +28,13 @@ for i in range(100):
         mySimulation.update()
     mySimulation.sample()
     print("Sample("+str(i)+")")
-
-print(len(mySimulation.dataMatrix))
 dataAnalyzer = data.DataAnalyzer(mySimulation.dataMatrix,2,3)
 dataAnalyzer.scalerfit()
 X1,X2 = zip(*dataAnalyzer.PCA.fit_transform(dataAnalyzer.scaler.transform(dataAnalyzer.dataMatrix)))
 
+#----------------
+#KMeans and plot
+#----------------
 
 colmap={1:'r', 2:'g', 3:'b'}
 df=pd.DataFrame({'x': X1, 'y': X2})
@@ -57,9 +61,11 @@ KMeans_Ax.set_xlabel('First principle component')
 KMeans_Ax.set_ylabel('Second principle component')
 plt.show()
 
-df = df.sort_values(by=['Temp'])
-print(df)
+#----------------
+#Distance and plot
+#----------------
 
+df = df.sort_values(by=['Temp'])
 TempDensityList= []
 for m in range(3):
     for (i,j,T) in df.loc[df['Labels'] == m][['x','y','Temp']].values:
@@ -86,21 +92,16 @@ for n in range(100):
 
     SamplefromPoints = sorted(SamplefromPoints, key=lambda x: x[0])
     T,Points = zip(*SamplefromPoints)
-    z = np.polyfit(T,Points,5)
-    p = np.poly1d(z)
-    rootList.append(np.polyder(p).roots[2])
+    LOESSestimates = sm.nonparametric.smoothers_lowess.lowess(Points,T,return_sorted=True)
+    #rootList.append(sorted(LOESSestimates,key=lambda x: x[1])[0][1])
 
-
-xs = np.arange(1.5,3,0.001)
-plt.figure(figsize=(6.5, 4))
-plt.plot(T, Points, 'o', label="data")
-plt.plot(xs, p(xs), label="Poly(deg = 3) regression")
-plt.title('Sample temperature versus distance from boundary')
+plt.scatter(*zip(*LOESSestimates))
+plt.title('LOESS smoothing')
 plt.xlabel('Temperature')
 plt.ylabel('Distance from Voronoi boundary')
 plt.show()
 
-print(str(np.mean(rootList)) + " +/- " + str(np.std(rootList)))
+#print(str(np.mean(rootList)) + " +/- " + str(np.std(rootList)))
 
 
 
