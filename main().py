@@ -11,19 +11,19 @@ import configClass as cf
 import IsingLatticeClass as Ising
 import SimulationClass as simulation
 import DataAnalyzerClass as data
-import statsmodels as sm
+from statsmodels.nonparametric.smoothers_lowess import lowess
 
-#----------------
-#Setup the simulation and run updates
-#----------------
+#-------------------------------------
+# Setup the simulation and run updates
+#-------------------------------------
 
-mySimulation = simulation.Simulation(20,1,1.6,2.9,20)
+mySimulation = simulation.Simulation(20,1,1.6,2.9,100)
 
 for i in range(50):
     mySimulation.update()
     print("Update("+str(i)+")")
 
-for i in range(100):
+for i in range(50):
     for j in range(1):
         mySimulation.update()
     mySimulation.sample()
@@ -32,9 +32,9 @@ dataAnalyzer = data.DataAnalyzer(mySimulation.dataMatrix,2,3)
 dataAnalyzer.scalerfit()
 X1,X2 = zip(*dataAnalyzer.PCA.fit_transform(dataAnalyzer.scaler.transform(dataAnalyzer.dataMatrix)))
 
-#----------------
+#---------------
 #KMeans and plot
-#----------------
+#---------------
 
 colmap={1:'r', 2:'g', 3:'b'}
 df=pd.DataFrame({'x': X1, 'y': X2})
@@ -61,9 +61,9 @@ KMeans_Ax.set_xlabel('First principle component')
 KMeans_Ax.set_ylabel('Second principle component')
 plt.show()
 
-#----------------
-#Distance and plot
-#----------------
+#-----------------
+# Distance and plot
+#-----------------
 
 df = df.sort_values(by=['Temp'])
 TempDensityList= []
@@ -81,9 +81,9 @@ plt.xlabel('Temperature')
 plt.ylabel('Distance from Voronoi boundary')
 plt.show()
 
-#----------------
-#LOESS smoothing estimates
-#----------------
+#-------------------------
+# LOESS smoothing estimates
+#-------------------------
 
 BootstrapParameter = 1000
 rootList = []
@@ -96,7 +96,7 @@ for n in range(100):
 
     SamplefromPoints = sorted(SamplefromPoints, key=lambda x: x[0])
     T,Points = zip(*SamplefromPoints)
-    LOESSestimates = sm.nonparametric.smoothers_lowess.lowess(Points,T,return_sorted=True)
+    LOESSestimates = lowess(Points,T,return_sorted=True)
     #rootList.append(sorted(LOESSestimates,key=lambda x: x[1])[0][1])
 
 plt.scatter(*zip(*LOESSestimates))
