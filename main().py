@@ -17,14 +17,14 @@ from statsmodels.nonparametric.smoothers_lowess import lowess
 # Setup the simulation and run updates
 #-------------------------------------
 
-mySimulation = simulation.Simulation(20,1,1.6,2.9,60)
+mySimulation = simulation.Simulation(40,1,1.6,2.9,100)
 
-for i in range(500):
+for i in range(1000):
     mySimulation.update()
     print("Update("+str(i)+")")
 
-for i in range(150):
-    for j in range(3):
+for i in range(50):
+    for j in range(10):
         mySimulation.update()
     mySimulation.sample()
     print("Sample("+str(i)+")")
