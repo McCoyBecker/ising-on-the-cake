@@ -39,7 +39,7 @@ X1TSNE,X2TSNE = zip(*dataAnalyzer.TSNE.fit_transform(dataAnalyzer.scaler.transfo
 #---------------
 
 colmap={1:'r', 2:'g', 3:'b'}
-df=pd.DataFrame({'x': X1TSNE, 'y': X2TSNE})
+df=pd.DataFrame({'x': X1, 'y': X2})
 kmeans=KMeans(n_clusters=3)
 kmeans.fit(df)
 labels=kmeans.predict(df)
