@@ -35,7 +35,7 @@ for i in range(SampleSize):
 dataAnalyzer = data.DataAnalyzer(mySimulation.dataMatrix,mySimulation.EnergyList,mySimulation.MagnetizationList,2,2,3)
 dataAnalyzer.scalerfit()
 X1,X2 = zip(*dataAnalyzer.PCA.fit_transform(dataAnalyzer.scaler.transform(dataAnalyzer.dataMatrix)))
-X1TSNE,X2TSNE = zip(*dataAnalyzer.TSNE.fit_transform(dataAnalyzer.scaler.transform(dataAnalyzer.dataMatrix)))
+#X1TSNE,X2TSNE = zip(*dataAnalyzer.TSNE.fit_transform(dataAnalyzer.scaler.transform(dataAnalyzer.dataMatrix)))
 
 #---------------
 #KMeans and plot
@@ -53,7 +53,6 @@ df=df.assign(Magnetization=dataAnalyzer.MagnetizationList)
 df=df.assign(Temp = mySimulation.TemperatureList)
 path = '/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/data/'
 df.to_csv(path + 'ising ' + str(N) + '_' + str(TSteps) + '_' + str(SampleSize) + '_' + '.csv')
-print(df)
 centroids=kmeans.cluster_centers_
 
 KMeans_Fig=plt.figure(4)
