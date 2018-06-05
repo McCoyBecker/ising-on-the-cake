@@ -24,12 +24,13 @@ for i in range(0):
     mySimulation.update()
     print("Update("+str(i)+")")
 
-for i in range(10000):
+for i in range(10):
     for j in range(1):
         mySimulation.update()
     mySimulation.sample()
     print("Sample("+str(i)+")")
-dataAnalyzer = data.DataAnalyzer(mySimulation.dataMatrix,2,2,3)
+
+dataAnalyzer = data.DataAnalyzer(mySimulation.dataMatrix,mySimulation.EnergyList,mySimulation.MagnetizationList,2,2,3)
 dataAnalyzer.scalerfit()
 X1,X2 = zip(*dataAnalyzer.PCA.fit_transform(dataAnalyzer.scaler.transform(dataAnalyzer.dataMatrix)))
 X1TSNE,X2TSNE = zip(*dataAnalyzer.TSNE.fit_transform(dataAnalyzer.scaler.transform(dataAnalyzer.dataMatrix)))
@@ -45,8 +46,11 @@ kmeans.fit(df)
 labels=kmeans.predict(df)
 transformed=kmeans.transform(df)
 df=df.assign(Labels=labels)
+df=df.assign(Energy =dataAnalyzer.EnergyList)
+df=df.assign(Magnetization=dataAnalyzer.MagnetizationList)
 df=df.assign(Temp = mySimulation.TemperatureList)
 centroids=kmeans.cluster_centers_
+print(df)
 
 KMeans_Fig=plt.figure(4)
 KMeans_Ax = KMeans_Fig.add_subplot(1,1,1)

@@ -13,6 +13,8 @@ class Simulation:
         self.LatticeSize = LatticeSize
         self.SimulationList = []
         self.dataMatrix = []
+        self.EnergyList = []
+        self.MagnetizationList = []
         self.LowerTemp = TemperatureLowerBound
         self.UpperTemp = TemperatureUpperBound
         self.TempRange = TemperatureRange
@@ -28,6 +30,8 @@ class Simulation:
             for i in range(len(self.SimulationList)):
                 for j in range(4):
                     self.dataMatrix.append(self.SimulationList[i][j].Config.state.flatten())
+                    self.EnergyList.append(self.SimulationList[i][j].Energy)
+                    self.MagnetizationList.append(self.SimulationList[i][j].Magnetization)
                     self.TemperatureList.append(self.LowerTemp + i*((self.UpperTemp-self.LowerTemp)/float(self.TempRange)))
 
 

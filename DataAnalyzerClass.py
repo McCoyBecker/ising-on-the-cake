@@ -13,8 +13,10 @@ import SimulationClass as simulation
 
 class DataAnalyzer:
 
-    def __init__(self, dataMatrix, HowManyPCA, HowManyTSNE, HowManyClusters):
+    def __init__(self, dataMatrix, Energy, Magnetization, HowManyPCA, HowManyTSNE, HowManyClusters):
         self.dataMatrix = dataMatrix
+        self.EnergyList = Energy
+        self.MagnetizationList = Magnetization
         self.PCA = PCA(n_components = HowManyPCA)
         self.TSNE = TSNE(n_components=HowManyTSNE)
         self.K = HowManyClusters
