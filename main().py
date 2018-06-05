@@ -20,12 +20,12 @@ from statsmodels.nonparametric.smoothers_lowess import lowess
 
 mySimulation = simulation.Simulation(20,1,1.6,2.9,100)
 
-for i in range(50):
+for i in range(0):
     mySimulation.update()
     print("Update("+str(i)+")")
 
-for i in range(50):
-    for j in range(5):
+for i in range(10000):
+    for j in range(1):
         mySimulation.update()
     mySimulation.sample()
     print("Sample("+str(i)+")")
