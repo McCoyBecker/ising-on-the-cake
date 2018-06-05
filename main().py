@@ -19,13 +19,14 @@ from statsmodels.nonparametric.smoothers_lowess import lowess
 #-------------------------------------
 N = input("What is the size of lattice?: ")
 TSteps = input("How many temperature steps?: ")
+SampleSize = input("How many samples?: ")
 mySimulation = simulation.Simulation(N,1,1.6,2.9,TSteps)
 
 for i in range(0):
     mySimulation.update()
     print("Update("+str(i)+")")
 
-for i in range(10):
+for i in range(SampleSize):
     for j in range(1):
         mySimulation.update()
     mySimulation.sample()
@@ -50,8 +51,8 @@ df=df.assign(Labels=labels)
 df=df.assign(Energy =dataAnalyzer.EnergyList)
 df=df.assign(Magnetization=dataAnalyzer.MagnetizationList)
 df=df.assign(Temp = mySimulation.TemperatureList)
-path = '/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/data'
-    df.to_csv(path + 'ising ' + str(N) + '_' + str(TSteps) + '_' + '.csv')
+path = '/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/data/'
+df.to_csv(path + 'ising ' + str(N) + '_' + str(TSteps) + '_' + str(SampleSize) + '_' + '.csv')
 print(df)
 centroids=kmeans.cluster_centers_
 
