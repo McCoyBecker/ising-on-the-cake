@@ -17,8 +17,9 @@ from statsmodels.nonparametric.smoothers_lowess import lowess
 #-------------------------------------
 # Setup the simulation and run updates
 #-------------------------------------
-
-mySimulation = simulation.Simulation(20,1,1.6,2.9,100)
+N = input("What is the size of lattice?: ")
+TSteps = input("How many temperature steps?: ")
+mySimulation = simulation.Simulation(N,1,1.6,2.9,TSteps)
 
 for i in range(0):
     mySimulation.update()
@@ -49,8 +50,10 @@ df=df.assign(Labels=labels)
 df=df.assign(Energy =dataAnalyzer.EnergyList)
 df=df.assign(Magnetization=dataAnalyzer.MagnetizationList)
 df=df.assign(Temp = mySimulation.TemperatureList)
-centroids=kmeans.cluster_centers_
+path = '/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/data'
+    df.to_csv(path + 'ising ' + str(N) + '_' + str(TSteps) + '_' + '.csv')
 print(df)
+centroids=kmeans.cluster_centers_
 
 KMeans_Fig=plt.figure(4)
 KMeans_Ax = KMeans_Fig.add_subplot(1,1,1)
