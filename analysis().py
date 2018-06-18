@@ -18,7 +18,7 @@ from statsmodels.nonparametric.smoothers_lowess import lowess
 # Distance and plot
 #-----------------
 
-df = pd.read_csv('/Users/mccoybecker/equilibrated40by40.csv')
+df = pd.read_csv('/Users/mccoybecker/equilibrated30by30_60temp.csv')
 df = df.sort_values(by=['Temp'])
 TempDensityList= []
 for m in range(3):
