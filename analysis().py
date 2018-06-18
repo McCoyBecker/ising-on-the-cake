@@ -35,23 +35,25 @@ plt.xlabel('Temperature')
 plt.ylabel('Distance from Voronoi boundary')
 plt.show()
 
-#-------------------------
-# LOESS smoothing estimates
-#-------------------------
+#------------------------------------------------------------
+# LOESS smoothing estimates and mean/STD minimum temperature
+#------------------------------------------------------------
 
-BootstrapParameter = 1000
+BootstrapParameter = input("Bootstrap number: ")
 rootList = []
-for n in range(100):
+for n in range(BootstrapParameter):
     SamplefromPoints = []
+    
     for T in set(mySimulation.TemperatureList):
         Points = [j[1] for j in TempDensityList if j[0] == T]
-        Points = [random.choice(Points) for j in range(BootstrapParameter)]
-        SamplefromPoints.append((T, np.mean(Points)))
-
+        SamplefromPoints.append((T, random.choice(Points)))
+    
     SamplefromPoints = sorted(SamplefromPoints, key=lambda x: x[0])
     T,Points = zip(*SamplefromPoints)
     LOESSestimates = lowess(Points,T,return_sorted=True)
-    #rootList.append(sorted(LOESSestimates,key=lambda x: x[1])[0][1])
+    temp,LOESS = zip(*LOESSestimates)
+    spl = InterpolatedUnivariateSpline(temp, LOESS,k=4)
+    rootList.append(spl.derivative().roots()[1])
 
 plt.scatter(*zip(*LOESSestimates))
 plt.title('LOESS smoothing')
@@ -59,11 +61,7 @@ plt.xlabel('Temperature')
 plt.ylabel('Distance from Voronoi boundary')
 plt.show()
 
-temp,LOESS = zip(*LOESSestimates)
-spl = InterpolatedUnivariateSpline(temp, LOESS,k=4)
-print(spl.derivative().roots())
-
-#print(str(np.mean(rootList)) + " +/- " + str(np.std(rootList)))
+print(str(np.mean(rootList)) + " +/- " + str(np.std(rootList)))
 
 
 
