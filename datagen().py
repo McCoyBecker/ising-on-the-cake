@@ -21,7 +21,7 @@ from statsmodels.nonparametric.smoothers_lowess import lowess
 N = input("What is the size of lattice?: ")
 TSteps = input("How many temperature steps?: ")
 SampleSize = input("How many samples?: ")
-mySimulation = simulation.Simulation(N,1,1.6,2.9,TSteps)
+mySimulation = simulation.Simulation(N,1,1.9,2.6,TSteps)
 
 for i in range(0):
     mySimulation.update()

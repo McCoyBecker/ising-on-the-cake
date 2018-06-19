@@ -41,6 +41,7 @@ plt.show()
 
 BootstrapParameter = input("Bootstrap number: ")
 rootList = []
+
 for n in range(BootstrapParameter):
     SamplefromPoints = []
     
