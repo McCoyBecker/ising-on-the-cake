@@ -3,7 +3,6 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 from sklearn.manifold import TSNE
-from scipy.spatial import Voronoi, voronoi_plot_2d
 from scipy.interpolate import InterpolatedUnivariateSpline
 import numpy as np
 import random as random
@@ -18,9 +17,9 @@ from statsmodels.nonparametric.smoothers_lowess import lowess
 # Setup the simulation and run updates
 #-------------------------------------
 
-N = input("What is the size of lattice?: ")
-TSteps = input("How many temperature steps?: ")
-SampleSize = input("How many samples?: ")
+N = int(input("What is the size of lattice?: "))
+TSteps = int(input("How many temperature steps?: "))
+SampleSize = int(input("How many samples?: "))
 mySimulation = simulation.Simulation(N,1,1.9,2.6,TSteps)
 
 for i in range(0):
