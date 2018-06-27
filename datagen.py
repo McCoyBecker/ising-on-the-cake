@@ -54,9 +54,3 @@ df=df.assign(Magnetization=dataAnalyzer.MagnetizationList)
 df=df.assign(Temp = mySimulation.TemperatureList)
 path = '/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/data/'
 df.to_csv(path + 'ising ' + str(N) + '_' + str(TSteps) + '_' + str(SampleSize) + '_' + '.csv')
-
-
-
-
-
-
