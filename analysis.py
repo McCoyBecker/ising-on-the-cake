@@ -3,7 +3,6 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 from sklearn.manifold import TSNE
-from scipy.spatial import Voronoi, voronoi_plot_2d
 from scipy.interpolate import InterpolatedUnivariateSpline
 import numpy as np
 import random as random
@@ -18,7 +17,7 @@ from statsmodels.nonparametric.smoothers_lowess import lowess
 # Distance and plot
 #-------------------
 
-df = pd.read_csv('/Users/mccoybecker/equilibrated30by30.csv')
+df = pd.read_csv('/Users/mccoybecker/5000_20_60.csv')
 df = df.sort_values(by=['Temp'])
 TempDensityList= []
 for m in range(3):

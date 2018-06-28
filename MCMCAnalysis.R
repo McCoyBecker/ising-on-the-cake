@@ -1,12 +1,12 @@
 library(coda)
-data=read.csv("/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/data/ising 30_60_5000_.csv")
+data=read.csv("/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/data/ising 20_60_5000_.csv")
 
 #Plotting Geweke statistic for one chain in the low temperature regime
-lowtemp = data[which(data$Temp<1.61),]
+lowtemp = data[which(data$Temp<1.91),]
 geweke.plot(mcmc(lowtemp[seq(1,20000,4),5]))
 
 #Plotting Geweke statistic for one chain in the high temperature regime
-hightemp = data[which(data$Temp>2.87),]
+hightemp = data[which(data$Temp>2.58),]
 geweke.plot(mcmc(hightemp[seq(1,20000,4),5]))
 
 #Gelman-Rudin for low temp
