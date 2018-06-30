@@ -1,0 +1,17 @@
+library(class)
+set.seed(pi)
+X <- t(replicate(20, runif(2)))
+g <- ifelse(apply(X, 1, sum) <= 1, 0, 1)
+xnew <- cbind(rep(seq(0, 1, length.out=50), 50),
+              rep(seq(0, 1, length.out=50), each=50))
+m <- knn(X, xnew, g, k=15, prob=TRUE)
+prob <- attr(m, "prob")
+prob <- ifelse(m=="1", prob, 1-prob)
+prob15 <- matrix(prob, 50)
+par(mar=rep(3, 4))
+title(xlab=expression(italic('X')[1]), ylab=expression(italic('X')[2]), 
+      line=1, family='serif', cex.lab=1.5)
+points(X, bg=ifelse(g==1, "#CA002070", "#0571B070"), pch=21)
+gd <- expand.grid(x=unique(xnew[, 1]), y=unique(xnew[, 2]))
+points(gd, pch=20, cex=0.4, col=ifelse(prob15 > 0.5, "#CA0020", "#0571B0"))
+box()

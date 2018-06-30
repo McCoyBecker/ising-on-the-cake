@@ -17,15 +17,24 @@ from statsmodels.nonparametric.smoothers_lowess import lowess
 # Distance and plot
 #-------------------
 
-df = pd.read_csv('/Users/mccoybecker/5000_20_60_cut.csv')
+df = pd.read_csv('/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/data/5000_20_60_cut.csv')
 df = df.sort_values(by=['Temp'])
+IndexList = []
 TempDensityList= []
 for m in range(3):
-    for (i,j,T) in df.loc[df['Labels'] == m][['x','y','Temp']].values:
+    for (X,i,j,T) in df.loc[df['Labels'] == m][['X','x','y','Temp']].values:
         list = []
         for (k,l) in df.loc[df['Labels'] != m][['x','y']].values:
             list.append((np.sqrt((i-k)**2+(j-l)**2))/float(2))
+        
+        IndexList.append((X,min(list)))
         TempDensityList.append((T, min(list)))
+
+IndexList.sort()
+df = df.sort_values(by=['X'])
+DistanceList = [IndexList[i][1] for i in range(len(IndexList))]
+df['Min_distance'] = DistanceList
+print(df)
 TempDensityList.sort()
 
 plt.scatter(*zip(*TempDensityList))
