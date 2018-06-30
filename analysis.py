@@ -21,6 +21,7 @@ df = pd.read_csv('/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/data/500
 df = df.sort_values(by=['Temp'])
 IndexList = []
 TempDensityList= []
+
 for m in range(3):
     for (X,i,j,T) in df.loc[df['Labels'] == m][['X','x','y','Temp']].values:
         list = []
@@ -34,20 +35,16 @@ IndexList.sort()
 df = df.sort_values(by=['X'])
 DistanceList = [IndexList[i][1] for i in range(len(IndexList))]
 df['Min_distance'] = DistanceList
-print(df)
-TempDensityList.sort()
+path = '/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/data/'
+df.to_csv(path + '5000_20_60_cut_updated.csv')
 
-plt.scatter(*zip(*TempDensityList))
-plt.title('Temperature versus distance from boundary')
-plt.xlabel('Temperature')
-plt.ylabel('Distance from Voronoi boundary')
-plt.show()
+TempDensityList.sort()
 
 #------------------------------------------------------------
 # LOESS smoothing estimates and mean/STD minimum temperature
 #------------------------------------------------------------
 
-BootstrapParameter = input("Bootstrap number: ")
+BootstrapParameter = int(input("Bootstrap number: "))
 rootList = []
 tempList = []
 
