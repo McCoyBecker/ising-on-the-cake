@@ -2,13 +2,13 @@ library(deldir)
 library(zoom)
 library(ggplot2)
 
-df <- equilibratedData
+df <- data
 
 #This creates the voronoi line segments
 voronoi <- deldir(df$x, df$y)
 
 #Now we can make a plot
-ggplot(data=df, aes(x=x,y=y)) +
+ggplot(data=data, aes(x=x,y=y)) +
   #Plot the voronoi lines
   geom_segment(
     aes(x = x1, y = y1, xend = x2, yend = y2),

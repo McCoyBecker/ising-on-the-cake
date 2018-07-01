@@ -17,7 +17,7 @@ from statsmodels.nonparametric.smoothers_lowess import lowess
 # Distance and plot
 #-------------------
 
-df = pd.read_csv('/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/data/5000_20_60_cut.csv')
+df = pd.read_csv('/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/data/5000_40_60_cut.csv')
 df = df.sort_values(by=['Temp'])
 IndexList = []
 TempDensityList= []
@@ -59,10 +59,19 @@ for n in range(BootstrapParameter):
         SamplefromPoints.append((T, random.choice(Points)))
     
     SamplefromPoints = sorted(SamplefromPoints, key=lambda x: x[0])
-    T,Points = zip(*SamplefromPoints)
+
+    T = [SamplefromPoints[j][0] for j in range(len(SamplefromPoints))]
+    Points = [SamplefromPoints[j][1] for j in range(len(SamplefromPoints))]
+
     LOESSestimates = lowess(Points,T,return_sorted=True)
-    temp,LOESS = zip(*LOESSestimates)
+
+    temp = [LOESSestimates[j][0] for j in range(len(LOESSestimates))]
+    LOESS = [LOESSestimates[j][1] for j in range(len(LOESSestimates))]
+
     spl = InterpolatedUnivariateSpline(temp, LOESS, k=4)
+
+    print('Hi')
+    
     plt.scatter(temp,LOESS)
     plt.plot(temp, spl(temp), 'g', lw=3, alpha=0.7)
     plt.title('LOESS smoothing with univariate spline fit k=4')
