@@ -34,5 +34,5 @@ df=pd.DataFrame({'x': X1, 'y': X2})
 df=df.assign(Energy = dataAnalyzer.EnergyList)
 df=df.assign(Magnetization = dataAnalyzer.MagnetizationList)
 df=df.assign(Temp = mySimulation.TemperatureList)
-path = '/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/data/'
+path = '/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/data/Original_data/'
 df.to_csv(path + 'ising ' + str(N) + '_' + str(TSteps) + '_' + str(SampleSize) + '_' + '.csv')

@@ -13,9 +13,9 @@ import SimulationClass as simulation
 import DataAnalyzerClass as data
 from statsmodels.nonparametric.smoothers_lowess import lowess
 
-#-------------------
+#------------------
 # Distance and plot
-#-------------------
+#------------------
 
 LatticeSize = input("What is lattice size of data?: ")
 df = pd.read_csv('/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/data/Cut_data/5000_' + LatticeSize +'_60_cut.csv')
@@ -36,14 +36,14 @@ IndexList.sort()
 df = df.sort_values(by=['X'])
 DistanceList = [IndexList[i][1] for i in range(len(IndexList))]
 df['Min_distance'] = DistanceList
-path = '/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/Cut_updated_data/'
+path = '/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/data/Cut_updated_data/'
 df.to_csv(path + '5000_'+ LatticeSize +'_60_cut_updated.csv')
 
 TempDensityList.sort()
 
-#------------------------------------------------------------
+#-----------------------------------------------------------
 # LOESS smoothing estimates and mean/STD minimum temperature
-#------------------------------------------------------------
+#-----------------------------------------------------------
 
 BootstrapParameter = int(input("Bootstrap number: "))
 rootList = []
@@ -70,8 +70,6 @@ for n in range(BootstrapParameter):
     LOESS = [LOESSestimates[j][1] for j in range(len(LOESSestimates))]
 
     spl = InterpolatedUnivariateSpline(temp, LOESS, k=4)
-
-    print('Hi')
     
     plt.scatter(temp,LOESS)
     plt.plot(temp, spl(temp), 'g', lw=3, alpha=0.7)
