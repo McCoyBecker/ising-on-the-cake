@@ -17,7 +17,8 @@ from statsmodels.nonparametric.smoothers_lowess import lowess
 # Distance and plot
 #-------------------
 
-df = pd.read_csv('/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/data/5000_40_60_cut.csv')
+LatticeSize = input("What is lattice size of data?: ")
+df = pd.read_csv('/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/data/Cut_data/5000_' + LatticeSize +'_60_cut.csv')
 df = df.sort_values(by=['Temp'])
 IndexList = []
 TempDensityList= []
@@ -35,8 +36,8 @@ IndexList.sort()
 df = df.sort_values(by=['X'])
 DistanceList = [IndexList[i][1] for i in range(len(IndexList))]
 df['Min_distance'] = DistanceList
-path = '/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/data/'
-df.to_csv(path + '5000_20_60_cut_updated.csv')
+path = '/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/Cut_updated_data/'
+df.to_csv(path + '5000_'+ LatticeSize +'_60_cut_updated.csv')
 
 TempDensityList.sort()
 

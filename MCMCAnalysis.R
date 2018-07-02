@@ -1,5 +1,5 @@
 library(coda)
-data=read.csv("/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/data/ising 20_60_5000_.csv")
+data=read.csv("/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/data/ising 50_60_5000_.csv")
 
 #Plotting Geweke statistic for one chain in the low temperature regime
 lowtemp = data[which(data$Temp<1.91),]
