@@ -46,6 +46,7 @@ TempDensityList.sort()
 #-----------------------------------------------------------
 
 BootstrapParameter = int(input("Bootstrap number: "))
+PlotButton = input("Plots on?: ")
 rootList = []
 tempList = []
 
@@ -66,17 +67,23 @@ for n in range(BootstrapParameter):
 
     LOESSestimates = lowess(Points,T,return_sorted=True)
 
+    #Fit degree = 4 spline to LOESS output
+    spl = InterpolatedUnivariateSpline(temp, LOESS, k=4)
+
     temp = [LOESSestimates[j][0] for j in range(len(LOESSestimates))]
     LOESS = [LOESSestimates[j][1] for j in range(len(LOESSestimates))]
+    if PlotButton not in ["No", "0"]:
+        plt.scatter(temp,LOESS)
+        plt.plot(temp, spl(temp), 'g', lw=3, alpha=0.7)
+        plt.title('LOESS smoothing with univariate spline fit k=4')
+        plt.xlabel('Temperature')
+        plt.ylabel('Distance from Voronoi boundary')
+        plt.show()
 
-    spl = InterpolatedUnivariateSpline(temp, LOESS, k=4)
-    
-    plt.scatter(temp,LOESS)
-    plt.plot(temp, spl(temp), 'g', lw=3, alpha=0.7)
-    plt.title('LOESS smoothing with univariate spline fit k=4')
-    plt.xlabel('Temperature')
-    plt.ylabel('Distance from Voronoi boundary')
-    plt.show()
+    #Generate list of roots using spline methods
+    if spl.derivative().roots() != []:
+        rootList.append(spl.derivative().roots()[0])
+        print(spl.derivative().roots()[0])
 
 print(str(np.mean(rootList)) + " +/- " + str(np.std(rootList)))
 
