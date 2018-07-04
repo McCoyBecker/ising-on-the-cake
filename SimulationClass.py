@@ -2,6 +2,7 @@ import numpy as np
 import configClass as cf
 import IsingLatticeClass as Ising
 import matplotlib.pyplot as plt
+from multiprocessing import Pool
 
 #The Simulation class includes plotting functionality and sampling over a range of temperatures and also handles equilibration
 
