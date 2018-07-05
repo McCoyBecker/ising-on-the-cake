@@ -15,41 +15,45 @@ from statsmodels.nonparametric.smoothers_lowess import lowess
 # Distance and plot
 #------------------
 
-LatticeSize = input("What is lattice size of data?: ")
-df = pd.read_csv('/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/data/Cut_data/5000_' + LatticeSize +'_60_cut.csv')
-df = df.sort_values(by=['Temp'])
-IndexList = []
-TempDensityList= []
+if input("Generate new data? ") in ["Yes", "1"]:
+    LatticeSize = input("What is lattice size of data?: ")
+    df = pd.read_csv('/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/data/Cut_data/5000_' + LatticeSize +'_60_cut.csv')
+    df = df.sort_values(by=['Temp'])
+    IndexList = []
+    TempDensityList= []
 
-for m in range(3):
-    for (X,i,j,T) in df.loc[df['Labels'] == m][['X','x','y','Temp']].values:
-        list = []
-        for (k,l) in df.loc[df['Labels'] != m][['x','y']].values:
-            list.append((np.sqrt((i-k)**2+(j-l)**2))/float(2))
-        
-        IndexList.append((X,min(list)))
-        TempDensityList.append((T, min(list)))
+    for m in range(3):
+        for (X,i,j,T) in df.loc[df['Labels'] == m][['X','x','y','Temp']].values:
+            list = []
+            for (k,l) in df.loc[df['Labels'] != m][['x','y']].values:
+                list.append((np.sqrt((i-k)**2+(j-l)**2))/float(2))
+            
+            IndexList.append((X,min(list)))
+            TempDensityList.append((T, min(list)))
 
-IndexList.sort()
-df = df.sort_values(by=['X'])
-DistanceList = [IndexList[i][1] for i in range(len(IndexList))]
-df['Min_distance'] = DistanceList
-path = '/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/data/Cut_updated_data/'
-df.to_csv(path + '5000_'+ LatticeSize +'_60_cut_updated.csv')
-
-TempDensityList.sort()
+    IndexList.sort()
+    df = df.sort_values(by=['X'])
+    DistanceList = [IndexList[i][1] for i in range(len(IndexList))]
+    df['Min_distance'] = DistanceList
+    path = '/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/data/Cut_updated_data/'
+    df.to_csv(path + '5000_'+ LatticeSize +'_60_cut_updated.csv')
 
 #-----------------------------------------------------------
 # LOESS smoothing estimates and mean/STD minimum temperature
 #-----------------------------------------------------------
 
+if input("Read in file? ") in ["Yes", "1"]:
+    path = input("What is path?: ")
+    df = pd.read_csv('/Users/mccoybecker/Desktop/Min_distance_update_40.csv')
+
 BootstrapParameter = int(input("Bootstrap number: "))
 PlotButton = input("Plots on?: ")
 rootList = []
-tempList = []
+TempDensityList = []
+tempList = [i for i in df['Temp']]
 
-for i in df['Temp']:
-    tempList.append(i)
+for (i,j) in df[['Temp','Min_distance']].values:
+    TempDensityList.append((i,j))
 
 for n in range(BootstrapParameter):
     SamplefromPoints = []
@@ -63,7 +67,7 @@ for n in range(BootstrapParameter):
     T = [SamplefromPoints[j][0] for j in range(len(SamplefromPoints))]
     Points = [SamplefromPoints[j][1] for j in range(len(SamplefromPoints))]
 
-    LOESSestimates = lowess(Points,T,return_sorted=True,frac=1./4)
+    LOESSestimates = lowess(Points,T,return_sorted=True,frac=1./2)
 
     temp = [LOESSestimates[j][0] for j in range(len(LOESSestimates))]
     LOESS = [LOESSestimates[j][1] for j in range(len(LOESSestimates))]
