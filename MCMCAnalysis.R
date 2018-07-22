@@ -6,7 +6,7 @@ lowtemp = data[which(data$Temp<1.91),]
 geweke.plot(mcmc(lowtemp[seq(1,20000,4),5]))
 
 #Plotting Geweke statistic for one chain in the high temperature regime
-hightemp = data[which(data$Temp>2.588),]
+hightemp = data[which(data$Temp>2.58),]
 geweke.plot(mcmc(hightemp[seq(1,20000,4),5]))
 
 #Gelman-Rudin for low temp
