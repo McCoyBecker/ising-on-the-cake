@@ -16,6 +16,7 @@ N = int(input("What is the size of lattice?: "))
 TSteps = int(input("How many temperature steps?: "))
 SampleSize = int(input("How many samples?: "))
 UpdateSteps = int(input("How many update non-sample steps?: "))
+batches = int(input("How many batches of data do you want?: "))
 
 #-------------------------------------
 # Update and sample steps
@@ -31,7 +32,7 @@ for k in range(batches):
     for i in range(SampleSize):
         mySimulation.update()
         mySimulation.sample()
-        print("Sample("+str(i)+")")
+        print("Sample("+str(i)+") of batch(" + str(k) +")")
 
     #-------------------------------------
     # Preprocessing and PCA
