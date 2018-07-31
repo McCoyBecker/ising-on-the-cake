@@ -27,26 +27,28 @@ for j in range(UpdateSteps):
     mySimulation.update()
     print("Update("+str(j)+")")
 
-for i in range(SampleSize):
-    mySimulation.update()
-    mySimulation.sample()
-    print("Sample("+str(i)+")")
+for k in range(batches):
+    for i in range(SampleSize):
+        mySimulation.update()
+        mySimulation.sample()
+        print("Sample("+str(i)+")")
 
-#-------------------------------------
-# Preprocessing and PCA
-#-------------------------------------
+    #-------------------------------------
+    # Preprocessing and PCA
+    #-------------------------------------
 
-scaled_data = scaler.fit(mySimulation.dataMatrix)
-X1,X2 = zip(*PCA.fit_transform(scaler.transform(scaled_data)))
+    scaled_data = scaler.fit(mySimulation.dataMatrix)
+    X1,X2 = zip(*PCA.fit_transform(scaler.transform(scaled_data)))
 
-df=pd.DataFrame({'x': X1, 'y': X2})
-df=df.assign(Energy = mySimulation.EnergyList)
-df=df.assign(Magnetization = mySimulation.MagnetizationList)
-df=df.assign(Temp = mySimulation.TemperatureList)
+    df=pd.DataFrame({'x': X1, 'y': X2})
+    df=df.assign(Energy = mySimulation.EnergyList)
+    df=df.assign(Magnetization = mySimulation.MagnetizationList)
+    df=df.assign(Temp = mySimulation.TemperatureList)
 
-#-------------------------------------
-# Write to .csv file
-#-------------------------------------
+    #-------------------------------------
+    # Write to .csv file
+    #-------------------------------------
 
-path = '/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/data/Original_data/'
-df.to_csv(path + 'ising ' + str(N) + '_' + str(TSteps) + '_' + str(SampleSize) + '_' + '.csv')
+    path = '/Users/mccoybecker/Documents/GitHub/ising-on-the-cake/data/Original_data/'
+    df.to_csv(path + 'ising ' + str(N) + '_' + str(TSteps) + '_' + str(SampleSize) + '_batch_' + str(k)+ '.csv')
+    mySimulation.reset()

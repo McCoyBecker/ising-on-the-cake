@@ -34,5 +34,11 @@ class Simulation:
                 self.MagnetizationList.append(self.SimulationList[i][j].Magnetization)
                 self.TemperatureList.append(self.LowerTemp + i*((self.UpperTemp-self.LowerTemp)/float(self.TempRange)))
 
+    def reset(self):
+        self.dataMatrix = []
+        self.EnergyList = []
+        self.MagnetizationList = []
+        self.TemperatureList = []
+
 
 
