@@ -6,7 +6,7 @@ import random as random
 import matplotlib.pyplot as plt
 import configClass as cf
 import IsingLatticeClass as Ising
-import SimulationClass
+from SimulationClass import Simulation
 
 #-------------------------------------
 # Setup the simulation and run updates
@@ -40,7 +40,7 @@ scaled_data = scaler.fit(mySimulation.dataMatrix)
 X1,X2 = zip(*PCA.fit_transform(scaler.transform(scaled_data)))
 
 df=pd.DataFrame({'x': X1, 'y': X2})
-df=df.assign(Energy = mySimulation.Energylist)
+df=df.assign(Energy = mySimulation.EnergyList)
 df=df.assign(Magnetization = mySimulation.MagnetizationList)
 df=df.assign(Temp = mySimulation.TemperatureList)
 
