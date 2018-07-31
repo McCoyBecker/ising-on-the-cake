@@ -28,11 +28,14 @@ class Simulation:
     
     def sample(self):
             for i in range(len(self.SimulationList)):
+                f = f = open('80by80.csv','w')
                 for j in range(4):
-                    self.dataMatrix.append(self.SimulationList[i][j].Config.state.flatten())
+                    f.write(str(self.SimulationList[i][j].Config.state.flatten())+'\n')
+                    #self.dataMatrix.append(self.SimulationList[i][j].Config.state.flatten())
                     self.EnergyList.append(self.SimulationList[i][j].Energy)
                     self.MagnetizationList.append(self.SimulationList[i][j].Magnetization)
                     self.TemperatureList.append(self.LowerTemp + i*((self.UpperTemp-self.LowerTemp)/float(self.TempRange)))
+                f.close()
 
 
 
