@@ -1,6 +1,6 @@
 import numpy as np
-import configClass as cf
-import IsingLatticeClass as Ising
+import classes.configClass as cf
+import classes.IsingLatticeClass as Ising
 import matplotlib.pyplot as plt
 
 #The Simulation class includes plotting functionality and sampling over a range of temperatures and also handles equilibration

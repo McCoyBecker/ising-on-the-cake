@@ -4,9 +4,9 @@ from sklearn.preprocessing import StandardScaler
 import numpy as np
 import random as random
 import matplotlib.pyplot as plt
-import configClass as cf
-import IsingLatticeClass as Ising
-from SimulationClass import Simulation
+import classes.configClass as cf
+import classes.IsingLatticeClass as Ising
+from classes.SimulationClass import Simulation
 
 #-------------------------------------
 # Setup the simulation and run updates
@@ -38,6 +38,7 @@ for k in range(batches):
     # Preprocessing and PCA
     #-------------------------------------
 
+    scaler = StandardScaler()
     scaled_data = scaler.fit(mySimulation.dataMatrix)
     X1,X2 = zip(*PCA.fit_transform(scaler.transform(scaled_data)))
 

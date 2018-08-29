@@ -1,5 +1,5 @@
 import numpy as np
-import configClass as cf
+import classes.configClass as cf
 import random as random
 
 #The IsingLattice class includes all the observables and functions on the lattice
