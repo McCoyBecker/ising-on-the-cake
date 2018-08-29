@@ -39,9 +39,9 @@ for k in range(batches):
     #-------------------------------------
 
     scaler = StandardScaler()
-    scaled_data = scaler.fit(mySimulation.dataMatrix)
-    X1,X2 = zip(*PCA.fit_transform(scaler.transform(scaled_data)))
-
+    pca = PCA(n_components = 2)
+    scaled_data = scaler.fit_transform(mySimulation.dataMatrix)
+    X1,X2 = zip(*pca.fit_transform(scaled_data))
     df=pd.DataFrame({'x': X1, 'y': X2})
     df=df.assign(Energy = mySimulation.EnergyList)
     df=df.assign(Magnetization = mySimulation.MagnetizationList)
